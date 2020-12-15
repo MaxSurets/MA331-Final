@@ -1,4 +1,7 @@
 ---
+title: "MA 331 Final"
+author: "Max Surets, Kera McGovern, and Adrian Gomes"
+date: "12/16/2020"
 output: pdf_document
 ---
 
@@ -259,7 +262,33 @@ As shown in Graph A, the residuals are approximately Normally distributed. As se
 
 
 # 11.58
+
+
+
 # 11.59
+Assume a significance level of 0.05:
+$$H_0: \beta_1 = \beta_2 = 0$$
+$$H_A: \beta_1 \not= \beta_2 \not= 0$$
+```{r}
+tamodel <- lm(taste ~ acetic + h2s, data = loss)
+modelSummary <- summary(tamodel)
+summary(tamodel)
+modelCoeffs <- modelSummary$coefficients
+
+beta <- modelCoeffs["acetic", "Estimate"]
+beta2 <- modelCoeffs["h2s", "Estimate"] 
+
+se <- modelCoeffs["acetic", "Std. Error"]
+se2 <- modelCoeffs["h2s", "Std. Error"]
+
+t_value <- beta/se #what to do with second values?
+p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 4)
+```
+Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["acetic"]` * Acetic + `r tamodel$coefficients["h2s"]` * H2S  
+T-value: `r t_value`  
+P-value: `r p_value`
+
+
 # 11.60
 # 11.61
 
