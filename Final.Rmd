@@ -90,3 +90,33 @@ In summary, taste seems to be approximately normally distributed, but acetic, H2
 
 
 
+
+# 11.54
+
+```{r out.width = "50%"}
+plot(taste, acetic)
+plot(taste, h2s)
+plot(taste, lactic)
+plot(acetic, h2s)
+plot(acetic, lactic)
+plot(h2s, lactic)
+```
+
+
+
+
+
+
+
+
+# 11.55
+# 11.56
+# 11.57
+# 11.58
+# 11.59
+# 11.60
+# 11.61
+
+
+
+
