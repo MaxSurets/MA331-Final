@@ -13,18 +13,10 @@ setwd(getwd())
 library(readxl)
 loss <- read_excel("./ex11-53cheese.xls")
 
-taste = c()
-acetic = c()
-h2s = c()
-lactic = c()
-
-for (n in 1:nrow(loss)) {
-  taste <- append(taste, as.numeric(loss[n,2]))
-  acetic <- append(acetic, as.numeric(loss[n,3]))
-  h2s <- append(h2s, as.numeric(loss[n,4]))
-  lactic <- append(lactic, as.numeric(loss[n,5]))
-}
-
+taste = loss$taste
+acetic = loss$acetic
+h2s = loss$h2s
+lactic = loss$lactic
 
 ```
 
@@ -33,15 +25,16 @@ for (n in 1:nrow(loss)) {
 ### Taste  
 Mean = `r mean(taste)`  
 Median = `r median(taste)`  
-Standard deviation = `r sd(taste)` 
-Interquartile range = `r IQR(taste)`
+Standard deviation = `r sd(taste)`  
+Interquartile range = `r IQR(taste)`  
+
 ```{r out.width="50%"}
 stem(taste)
 qqnorm(taste, pch = 1, frame = FALSE)
 qqline(taste, col = "steelblue", lwd = 2)
 ```
 
-The normal QQ plot shows a roughly straight line and the leaf plot looks approximately normal.  
+The normal QQ plot shows a roughly straight line and the leaf plot looks skewed right.  
 
 ### Acetic
 Mean = `r mean(acetic)`   
@@ -54,7 +47,7 @@ qqnorm(acetic, pch = 1, frame = FALSE)
 qqline(acetic, col = "steelblue", lwd = 2)
 ```
 
-The normal QQ plot shows a roughly straight line but the leaf plot shows a right skew.
+The normal QQ plot shows a roughly straight line but the leaf plot does not look normal.
 
 
 ### H2S
@@ -68,7 +61,7 @@ qqnorm(h2s, pch = 1, frame = FALSE)
 qqline(h2s, col = "steelblue", lwd = 2)
 ```
 
-The normal QQ plot shows a roughly straight line but the leaf plot does not look to be normally distributed.
+The normal QQ plot shows a roughly straight line but the leaf plot is skewed right. 
 
 
 
@@ -83,9 +76,9 @@ qqnorm(lactic, pch = 1, frame = FALSE)
 qqline(lactic, col = "steelblue", lwd = 2)
 ```
 
-The normal QQ plot shows a roughly straight line but the leaf plot shows a right skew.  
+The normal QQ plot shows a roughly straight line but the leaf plot is approximately normal.
 
-In summary, taste seems to be approximately normally distributed, but acetic, H2S, and lactic do not seem to be.  
+In summary, taste, acetic, and H2S do not seem to be normally distributed, but lactic does.  
 
 
 
@@ -95,13 +88,57 @@ In summary, taste seems to be approximately normally distributed, but acetic, H2
 
 ```{r out.width = "50%"}
 plot(taste, acetic)
-plot(taste, h2s)
-plot(taste, lactic)
-plot(acetic, h2s)
-plot(acetic, lactic)
-plot(h2s, lactic)
+res = summary(aov(taste~acetic))
 ```
 
+The relationship between taste and acetic is positive.  
+Correlation = `r cor(taste, acetic)`  
+P-value = `r res[[1]][["Pr(>F)"]][1]`  
+
+```{r out.width = "50%"}
+plot(taste, h2s)
+res = summary(aov(taste~h2s))
+```
+
+The relationship between taste and h2s is positive.  
+Correlation = `r cor(taste, h2s)`  
+P-value = `r res[[1]][["Pr(>F)"]][1]`  
+
+```{r out.width = "50%"}
+plot(taste, lactic)
+res = summary(aov(taste~lactic))
+```
+
+The relationship between taste and lactic is positive.  
+Correlation = `r cor(taste, lactic)`  
+P-value = `r res[[1]][["Pr(>F)"]][1]`  
+
+```{r out.width = "50%"}
+plot(acetic, h2s)
+res = summary(aov(acetic~h2s))
+```
+
+The relationship between acetic and h2s is positive.  
+Correlation = `r cor(acetic, h2s)`  
+P-value = `r res[[1]][["Pr(>F)"]][1]`  
+
+```{r out.width = "50%"}
+plot(acetic, lactic)
+res = summary(aov(acetic~lactic))
+```
+
+The relationship between acetic and lactic is positive.  
+Correlation = `r cor(acetic, lactic)`  
+P-value = `r res[[1]][["Pr(>F)"]][1]`  
+
+```{r out.width = "50%"}
+plot(h2s, lactic)
+res = summary(aov(h2s~lactic))
+```
+
+The relationship between h2s and lactic is positive.  
+Correlation = `r cor(h2s, lactic)`  
+P-value = `r res[[1]][["Pr(>F)"]][1]`  
 
 
 
