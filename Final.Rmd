@@ -1,0 +1,27 @@
+---
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r echo=FALSE}
+library(readxl)
+loss <- read_excel("C:/Users/Max/Downloads/ex11-53cheese.xls")
+
+taste = c()
+acetic = c()
+h2s = c()
+lactic = c()
+
+for (n in 1:nrow(loss)) {
+  taste <- append(taste, as.numeric(loss[n,1]))
+  acetic <- append(acetic, as.numeric(loss[n,2]))
+  h2s <- append(h2s, as.numeric(loss[n,3]))
+  lactic <- append(lactic, as.numeric(loss[n,4]))
+}
+
+
+```
