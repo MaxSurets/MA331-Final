@@ -105,11 +105,10 @@ plot(h2s, lactic)
 
 
 
-
-
-
-
 # 11.55
+Assume a significance level of 0.05:
+$$H_0: \beta_1 = 0$$
+$$H_A: \beta_1 \not= 0$$
 ```{r}
 tamodel <- lm(taste ~ acetic, data = loss)
 modelSummary <- summary(tamodel)
@@ -117,24 +116,111 @@ modelCoeffs <- modelSummary$coefficients
 beta <- modelCoeffs["acetic", "Estimate"]
 se <- modelCoeffs["acetic", "Std. Error"]
 t_value <- beta/se
-p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 2)
+p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
 ```
 Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["acetic"]` * Acetic  
 T-value: `r t_value`  
-P-value: `r p_value`  
+P-value: `r p_value` 
+  
+Since the p value of `r p_value` is less than the significance level of 0.05, the null hypothesis can be rejected as the test is statistically significant.  
 
 ```{r out.width = "50%"}
 Taste_Acetic <- lm(taste ~ acetic, data = loss)
 modelSummary <- summary(Taste_Acetic)
-hist(Taste_Acetic$residuals, pch = 16, col = "red", main = "Histogram of Residuals")
+hist(Taste_Acetic$residuals, pch = 16, col = "red", main = "A: Histogram of Residuals")
 
 predictedy <- Taste_Acetic$fitted.values
-plot(acetic,taste)
-#lines(acetic, predictedy)
+plot(acetic,taste, main = "B: Least Squares of Taste v. Acetic")
+abline(Taste_Acetic$coefficients["(Intercept)"], Taste_Acetic$coefficients["acetic"])
+
+plot(Taste_Acetic$residuals, h2s, main = "C: Residuals v. H2S")
+plot(Taste_Acetic$residuals, lactic, main = "D: Residuals v. Lactic")
 ```
 
+As shown in Graph A, the residuals have an approximately Normal distribution. As seen in Graphs C and D, there is a positive association between the residuals of taste and acetic and the values of H2S and lactic, respectively.
+
+
+
+
+
 # 11.56
+
+Assume a significance level of 0.05:
+$$H_0: \beta_1 = 0$$
+$$H_A: \beta_1 \not= 0$$
+```{r}
+tamodel <- lm(taste ~ h2s, data = loss)
+modelSummary <- summary(tamodel)
+modelCoeffs <- modelSummary$coefficients
+beta <- modelCoeffs["h2s", "Estimate"]
+se <- modelCoeffs["h2s", "Std. Error"]
+t_value <- beta/se
+p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
+```
+Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["h2s"]` * H2S  
+T-value: `r t_value`  
+P-value: `r p_value` 
+  
+Since the p value of `r p_value` is less than the significance level of 0.05, the null hypothesis can be rejected as the test is statistically significant.  
+
+```{r out.width = "50%"}
+Taste_H2s <- lm(taste ~ h2s, data = loss)
+modelSummary <- summary(Taste_H2s)
+hist(Taste_H2s$residuals, pch = 16, col = "red", main = "A: Histogram of Residuals")
+
+predictedy <- Taste_H2s$fitted.values
+plot(h2s,taste, main = "B: Least Squares of Taste v. H2S")
+abline(Taste_H2s$coefficients["(Intercept)"], Taste_H2s$coefficients["h2s"])
+
+plot(Taste_H2s$residuals, acetic, main = "C: Residuals v. Acetic")
+plot(Taste_H2s$residuals, lactic, main = "D: Residuals v. Lactic")
+```
+
+As shown in Graph A, the residuals are approximately Normally distributed. As seen in Graphs C and D, there appears to be an extremely weak positive correlation between the residuals of taste and H2s and the values of acetic and lactic, respectively.
+
+
+
+
 # 11.57
+
+Assume a significance level of 0.05:
+$$H_0: \beta_1 = 0$$
+$$H_A: \beta_1 \not= 0$$
+```{r}
+tamodel <- lm(taste ~ lactic, data = loss)
+modelSummary <- summary(tamodel)
+modelCoeffs <- modelSummary$coefficients
+beta <- modelCoeffs["lactic", "Estimate"]
+se <- modelCoeffs["lactic", "Std. Error"]
+t_value <- beta/se
+p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
+```
+Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["lactic"]` * Lactic  
+T-value: `r t_value`  
+P-value: `r p_value` 
+  
+Since the p value of `r p_value` is less than the significance level of 0.05, the null hypothesis can be rejected as the test is statistically significant.  
+
+```{r out.width = "50%"}
+Taste_L <- lm(taste ~ lactic, data = loss)
+modelSummary <- summary(Taste_L)
+hist(Taste_L$residuals, pch = 16, col = "red", main = "A: Histogram of Residuals")
+
+predictedy <- Taste_L$fitted.values
+plot(lactic,taste, main = "B: Least Squares of Taste v. Lactic")
+abline(Taste_L$coefficients["(Intercept)"], Taste_L$coefficients["lactic"])
+
+plot(Taste_L$residuals, acetic, main = "C: Residuals v. Acetic")
+plot(Taste_L$residuals, h2s, main = "D: Residuals v. H2S")
+```
+
+As shown in Graph A, the residuals are approximately Normally distributed. As seen in Graphs C and D, there appears to no correlation between the residuals of taste and H2s and the values of acetic and H2S, respectively.
+
+
+
+
+
+
 # 11.58
 # 11.59
 # 11.60
