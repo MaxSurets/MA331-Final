@@ -8,8 +8,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r echo=FALSE}
+setwd(getwd())
+
 library(readxl)
-loss <- read_excel("C:/Users/Max/Downloads/ex11-53cheese.xls")
+loss <- read_excel("./ex11-53cheese.xls")
 
 taste = c()
 acetic = c()
