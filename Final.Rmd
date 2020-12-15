@@ -131,6 +131,28 @@ plot(h2s, lactic)
 
 
 # 11.55
+```{r}
+tamodel <- lm(taste ~ acetic, data = loss)
+modelSummary <- summary(tamodel)
+modelCoeffs <- modelSummary$coefficients
+beta <- modelCoeffs["acetic", "Estimate"]
+se <- modelCoeffs["acetic", "Std. Error"]
+t_value <- beta/se
+p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 2)
+```
+Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["acetic"]` * Acetic  
+T-value: `r t_value`  
+P-value: `r p_value`  
+
+```{r out.width = "50%"}
+Taste_Acetic <- lm(taste ~ acetic, data = loss)
+modelSummary <- summary(Taste_Acetic)
+hist(Taste_Acetic$residuals, pch = 16, col = "red", main = "Histogram of Residuals")
+
+plot(taste,acetic)
+abline(Taste_Acetic) #need to fix
+```
+
 # 11.56
 # 11.57
 # 11.58
