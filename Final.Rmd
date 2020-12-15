@@ -95,10 +95,31 @@ In summary, taste seems to be approximately normally distributed, but acetic, H2
 
 ```{r out.width = "50%"}
 plot(taste, acetic)
+```
+
+
+```{r out.width = "50%"}
 plot(taste, h2s)
+```
+
+
+```{r out.width = "50%"}
 plot(taste, lactic)
+```
+
+
+```{r out.width = "50%"}
 plot(acetic, h2s)
+
+```
+
+
+```{r out.width = "50%"}
 plot(acetic, lactic)
+```
+
+
+```{r out.width = "50%"}
 plot(h2s, lactic)
 ```
 
