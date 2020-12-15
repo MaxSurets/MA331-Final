@@ -19,10 +19,10 @@ h2s = c()
 lactic = c()
 
 for (n in 1:nrow(loss)) {
-  taste <- append(taste, as.numeric(loss[n,1]))
-  acetic <- append(acetic, as.numeric(loss[n,2]))
-  h2s <- append(h2s, as.numeric(loss[n,3]))
-  lactic <- append(lactic, as.numeric(loss[n,4]))
+  taste <- append(taste, as.numeric(loss[n,2]))
+  acetic <- append(acetic, as.numeric(loss[n,3]))
+  h2s <- append(h2s, as.numeric(loss[n,4]))
+  lactic <- append(lactic, as.numeric(loss[n,5]))
 }
 
 
@@ -149,8 +149,9 @@ Taste_Acetic <- lm(taste ~ acetic, data = loss)
 modelSummary <- summary(Taste_Acetic)
 hist(Taste_Acetic$residuals, pch = 16, col = "red", main = "Histogram of Residuals")
 
-plot(taste,acetic)
-abline(Taste_Acetic) #need to fix
+predictedy <- Taste_Acetic$fitted.values
+plot(acetic,taste)
+#lines(acetic, predictedy)
 ```
 
 # 11.56
