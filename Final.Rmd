@@ -91,28 +91,28 @@ In summary, taste, acetic, and H2S do not seem to be normally distributed, but l
 
 ```{r out.width = "50%"}
 plot(taste, acetic)
-res = summary(aov(taste~acetic))
+res = summary(aov(acetic~taste))
 ```
 
-The relationship between taste and acetic is positive.  
+The relationship between acetic and taste is positive.  
 Correlation = `r cor(taste, acetic)`  
 P-value = `r res[[1]][["Pr(>F)"]][1]`  
 
 ```{r out.width = "50%"}
 plot(taste, h2s)
-res = summary(aov(taste~h2s))
+res = summary(aov(h2s~taste))
 ```
 
-The relationship between taste and h2s is positive.  
+The relationship between h2s and taste is positive.  
 Correlation = `r cor(taste, h2s)`  
 P-value = `r res[[1]][["Pr(>F)"]][1]`  
 
 ```{r out.width = "50%"}
 plot(taste, lactic)
-res = summary(aov(taste~lactic))
+res = summary(aov(lactic~taste))
 ```
 
-The relationship between taste and lactic is positive.  
+The relationship between lactic and taste is positive.  
 Correlation = `r cor(taste, lactic)`  
 P-value = `r res[[1]][["Pr(>F)"]][1]`  
 
@@ -150,15 +150,24 @@ Assume a significance level of 0.05:
 $$H_0: \beta_1 = 0$$
 $$H_A: \beta_1 \not= 0$$
 ```{r}
+fstats <- c()
+pvalues <- c()
+rsq <- c()
+s <- c()
+
 tamodel <- lm(taste ~ acetic, data = loss)
 modelSummary <- summary(tamodel)
+fstats <- append(fstats, modelSummary$fstatistic[[1]])
+s <- append(s, sqrt(modelSummary$sigma))
+rsq <- append(rsq, modelSummary$r.squared)
 modelCoeffs <- modelSummary$coefficients
 beta <- modelCoeffs["acetic", "Estimate"]
 se <- modelCoeffs["acetic", "Std. Error"]
 t_value <- beta/se
 p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
+pvalues <- append(pvalues, p_value)
 ```
-Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["acetic"]` * Acetic  
+$\hat Taste$ = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["acetic"]` * Acetic  
 T-value: `r t_value`  
 P-value: `r p_value` 
   
@@ -191,13 +200,17 @@ $$H_A: \beta_1 \not= 0$$
 ```{r}
 tamodel <- lm(taste ~ h2s, data = loss)
 modelSummary <- summary(tamodel)
+fstats <- append(fstats, modelSummary$fstatistic[[1]])
+rsq <- append(rsq, modelSummary$r.squared)
+s <- append(s, sqrt(modelSummary$sigma))
 modelCoeffs <- modelSummary$coefficients
 beta <- modelCoeffs["h2s", "Estimate"]
 se <- modelCoeffs["h2s", "Std. Error"]
 t_value <- beta/se
 p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
+pvalues <- append(pvalues, p_value)
 ```
-Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["h2s"]` * H2S  
+$\hat Taste$ = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["h2s"]` * H2S  
 T-value: `r t_value`  
 P-value: `r p_value` 
   
@@ -229,13 +242,17 @@ $$H_A: \beta_1 \not= 0$$
 ```{r}
 tamodel <- lm(taste ~ lactic, data = loss)
 modelSummary <- summary(tamodel)
+fstats <- append(fstats, modelSummary$fstatistic[[1]])
+rsq <- append(rsq, modelSummary$r.squared)
+s <- append(s, sqrt(modelSummary$sigma))
 modelCoeffs <- modelSummary$coefficients
 beta <- modelCoeffs["lactic", "Estimate"]
 se <- modelCoeffs["lactic", "Std. Error"]
 t_value <- beta/se
 p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
+pvalues <- append(pvalues, p_value)
 ```
-Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["lactic"]` * Lactic  
+$\hat Taste$ = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["lactic"]` * Lactic  
 T-value: `r t_value`  
 P-value: `r p_value` 
   
@@ -262,8 +279,16 @@ As shown in Graph A, the residuals are approximately Normally distributed. As se
 
 
 # 11.58
+```{r out.width = "50%"}
+compTable = data.frame("F statistic"=fstats, "P-value"=pvalues, "R-squared"=rsq, "s"=s)
+knitr::kable(compTable)
+```
 
+$\hat Taste=-61.4986124+15.6477672*Acetic$  
+$\hat Taste=-9.7868374+5.7760886*H2S$  
+$\hat Taste=-29.8588324+37.7199485*Lactic$  
 
+The intercepts in these three equations are different because of differences in the variations of the response variable. For example, the values of H2S at low values of taste were concentrated close to the line compared to the values of the response variable acetic, which were scattered far from the line. 
 
 # 11.59
 Assume a significance level of 0.05:
