@@ -41,6 +41,7 @@ qqnorm(taste, pch = 1, frame = FALSE)
 qqline(taste, col = "steelblue", lwd = 2)
 ```
 
+The normal QQ plot shows a roughly straight line and the leaf plot looks approximately normal.  
 
 ### Acetic
 Mean = `r mean(acetic)`   
@@ -53,6 +54,9 @@ qqnorm(acetic, pch = 1, frame = FALSE)
 qqline(acetic, col = "steelblue", lwd = 2)
 ```
 
+The normal QQ plot shows a roughly straight line but the leaf plot shows a right skew.
+
+
 ### H2S
 Mean = `r mean(h2s)`   
 Median = `r median(h2s)`  
@@ -64,6 +68,10 @@ qqnorm(h2s, pch = 1, frame = FALSE)
 qqline(h2s, col = "steelblue", lwd = 2)
 ```
 
+The normal QQ plot shows a roughly straight line but the leaf plot does not look to be normally distributed.
+
+
+
 ### Lactic
 Mean = `r mean(lactic)`   
 Median = `r median(lactic)`  
@@ -74,6 +82,11 @@ stem(lactic)
 qqnorm(lactic, pch = 1, frame = FALSE)
 qqline(lactic, col = "steelblue", lwd = 2)
 ```
+
+The normal QQ plot shows a roughly straight line but the leaf plot shows a right skew.  
+
+In summary, taste seems to be approximately normally distributed, but acetic, H2S, and lactic do not seem to be.  
+
 
 
 
