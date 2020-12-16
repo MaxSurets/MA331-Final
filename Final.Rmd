@@ -164,7 +164,8 @@ modelCoeffs <- modelSummary$coefficients
 beta <- modelCoeffs["acetic", "Estimate"]
 se <- modelCoeffs["acetic", "Std. Error"]
 t_value <- beta/se
-p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
+#p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
+p_value <- modelSummary[["coefficients"]][8]
 pvalues <- append(pvalues, p_value)
 ```
 $\hat Taste$ = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["acetic"]` * Acetic  
@@ -207,7 +208,8 @@ modelCoeffs <- modelSummary$coefficients
 beta <- modelCoeffs["h2s", "Estimate"]
 se <- modelCoeffs["h2s", "Std. Error"]
 t_value <- beta/se
-p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
+#p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
+p_value <- modelSummary[["coefficients"]][8]
 pvalues <- append(pvalues, p_value)
 ```
 $\hat Taste$ = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["h2s"]` * H2S  
@@ -249,7 +251,8 @@ modelCoeffs <- modelSummary$coefficients
 beta <- modelCoeffs["lactic", "Estimate"]
 se <- modelCoeffs["lactic", "Std. Error"]
 t_value <- beta/se
-p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
+#p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
+p_value <- modelSummary[["coefficients"]][8]
 pvalues <- append(pvalues, p_value)
 ```
 $\hat Taste$ = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["lactic"]` * Lactic  
