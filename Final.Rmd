@@ -316,6 +316,9 @@ Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["aceti
 T-value: `r t_value`  
 P-value: `r p_value`
 
+The model with only Acetic as a predictor is stronger. I prefer that model over the one with both Acetic and H2S as predictors because it is more significant, with a P-value of 0.001658 compared to 0.4065277 for the previous.  
+
+
 
 # 11.60
 # 11.61
