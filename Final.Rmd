@@ -207,13 +207,13 @@ s <- append(s, sqrt(modelSummary$sigma))
 modelCoeffs <- modelSummary$coefficients
 beta <- modelCoeffs["h2s", "Estimate"]
 se <- modelCoeffs["h2s", "Std. Error"]
-t_value <- beta/se
+t_value_h2s <- beta/se
 #p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
 p_value <- modelSummary[["coefficients"]][8]
 pvalues <- append(pvalues, p_value)
 ```
 $\hat Taste$ = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["h2s"]` * H2S  
-T-value: `r t_value`  
+T-value: `r t_value_h2s`  
 P-value: `r p_value` 
   
 Since the p value of `r p_value` is less than the significance level of 0.05, the null hypothesis can be rejected as the test is statistically significant.  
@@ -250,13 +250,13 @@ s <- append(s, sqrt(modelSummary$sigma))
 modelCoeffs <- modelSummary$coefficients
 beta <- modelCoeffs["lactic", "Estimate"]
 se <- modelCoeffs["lactic", "Std. Error"]
-t_value <- beta/se
+t_value_lactic <- beta/se
 #p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
 p_value <- modelSummary[["coefficients"]][8]
 pvalues <- append(pvalues, p_value)
 ```
 $\hat Taste$ = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["lactic"]` * Lactic  
-T-value: `r t_value`  
+T-value: `r t_value_lactic`  
 P-value: `r p_value` 
   
 Since the p value of `r p_value` is less than the significance level of 0.05, the null hypothesis can be rejected as the test is statistically significant.  
@@ -300,7 +300,6 @@ $$H_A: \beta_1 \not= \beta_2 \not= 0$$
 ```{r}
 tamodel <- lm(taste ~ acetic + h2s, data = loss)
 modelSummary <- summary(tamodel)
-summary(tamodel)
 modelCoeffs <- modelSummary$coefficients
 
 beta <- modelCoeffs["acetic", "Estimate"]
@@ -313,14 +312,42 @@ t_value <- beta/se #what to do with second values?
 p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 4)
 ```
 Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["acetic"]` * Acetic + `r tamodel$coefficients["h2s"]` * H2S  
-T-value: `r t_value`  
-P-value: `r p_value`
+Acetic T-value: `r t_value`  
+Acetic P-value: `r p_value`
 
 The model with only Acetic as a predictor is stronger. I prefer that model over the one with both Acetic and H2S as predictors because it is more significant, with a P-value of 0.001658 compared to 0.4065277 for the previous.  
 
 
 
 # 11.60
+
+```{r}
+tamodel <- lm(taste ~ h2s + lactic, data = loss)
+modelSummary <- summary(tamodel)
+modelCoeffs <- modelSummary$coefficients
+
+beta <- modelCoeffs["h2s", "Estimate"]
+beta2 <- modelCoeffs["lactic", "Estimate"] 
+
+se <- modelCoeffs["h2s", "Std. Error"]
+se2 <- modelCoeffs["lactic", "Std. Error"]
+
+t_value <- beta/se
+p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 4)
+
+
+t_value2 <- beta2/se2
+p_value2 <- 2*pt(-abs(t_value2), df=nrow(loss) - 4)
+```
+Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["h2s"]` * H2S + `r tamodel$coefficients["lactic"]` * Lactic  
+H2S T-value: `r t_value`  
+H2S P-value: `r p_value`  
+Lactic T-value: `r t_value2`  
+Lactic P-value: `r p_value2`  
+The results obtained from using both predictors in a model were much better than the results obtained from the analysis of a simple linear regression of the explanatory variables on their own. As seen directed above, the t-value for H2S is `r t_value` and lactic is `r t_value2` when they are both used as predictors. When they used as individual explanatory variables, their t-values are `r t_value_h2s` and `r t_value_lactic` for H2S and lactic, respectively. When they are both used as predictors together, the t-value for both variables was decreased. This decrease is important as the closer to 0 that the t-value is, the greater the evidence that the null hypothesis is not rejected which means that the predicted value would be a better estimate.
+
+
+
 # 11.61
 
 
