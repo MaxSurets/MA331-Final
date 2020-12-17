@@ -139,7 +139,7 @@ plot(h2s, lactic)
 res = summary(aov(h2s~lactic))
 ```
 
-The relationship between h2s and lactic is positive.  
+The relationship between h2s and lactic is weak and positive.  
 Correlation = `r cor(h2s, lactic)`  
 P-value = `r res[[1]][["Pr(>F)"]][1]`  
 
@@ -179,11 +179,11 @@ predictedy <- Taste_Acetic$fitted.values
 plot(acetic,taste, main = "B: Least Squares of Taste v. Acetic")
 abline(Taste_Acetic$coefficients["(Intercept)"], Taste_Acetic$coefficients["acetic"])
 
-plot(Taste_Acetic$residuals, h2s, main = "C: Residuals v. H2S")
-plot(Taste_Acetic$residuals, lactic, main = "D: Residuals v. Lactic")
+plot(h2s, Taste_Acetic$residuals, main = "C: Residuals v. H2S")
+plot(lactic, Taste_Acetic$residuals, main = "D: Residuals v. Lactic")
 ```
 
-As shown in Graph A, the residuals have an approximately Normal distribution. As seen in Graphs C and D, there is a positive association between the residuals of taste and acetic and the values of H2S and lactic, respectively.
+As shown in Graph A, the residuals have an approximately Normal distribution. As seen in Graphs C and D, there is a positive association between the residuals and the values of H2S and lactic, respectively.
 
 
 
@@ -219,12 +219,11 @@ predictedy <- Taste_H2s$fitted.values
 plot(h2s,taste, main = "B: Least Squares of Taste v. H2S")
 abline(Taste_H2s$coefficients["(Intercept)"], Taste_H2s$coefficients["h2s"])
 
-plot(Taste_H2s$residuals, acetic, main = "C: Residuals v. Acetic")
-plot(Taste_H2s$residuals, lactic, main = "D: Residuals v. Lactic")
+plot(acetic, Taste_H2s$residuals, main = "C: Residuals v. Acetic")
+plot(lactic, Taste_H2s$residuals, main = "D: Residuals v. Lactic")
 ```
 
-As shown in Graph A, the residuals are approximately Normally distributed. As seen in Graphs C and D, there appears to be an extremely weak positive correlation between the residuals of taste and H2s and the values of acetic and lactic, respectively.
-
+As shown in Graph A, the residuals are approximately Normally distributed. Graph C shows no pattern, suggesting that there is no relationship between the residuals and acetic. Graph D shows a very weak positive relationship between the residuals and lactic.  
 
 
 
@@ -258,11 +257,11 @@ predictedy <- Taste_L$fitted.values
 plot(lactic,taste, main = "B: Least Squares of Taste v. Lactic")
 abline(Taste_L$coefficients["(Intercept)"], Taste_L$coefficients["lactic"])
 
-plot(Taste_L$residuals, acetic, main = "C: Residuals v. Acetic")
-plot(Taste_L$residuals, h2s, main = "D: Residuals v. H2S")
+plot(acetic, Taste_L$residuals, main = "C: Residuals v. Acetic")
+plot(h2s, Taste_L$residuals, main = "D: Residuals v. H2S")
 ```
 
-As shown in Graph A, the residuals are approximately Normally distributed. As seen in Graphs C and D, there appears to no correlation between the residuals of taste and H2s and the values of acetic and H2S, respectively.
+As shown in Graph A, the residuals are approximately Normally distributed. As seen in Graphs C and D, there appears to no correlation between the residuals and the values of acetic and H2S, respectively.
 
 \   
 \   
