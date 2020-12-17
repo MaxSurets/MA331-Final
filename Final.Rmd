@@ -276,10 +276,8 @@ plot(Taste_L$residuals, h2s, main = "D: Residuals v. H2S")
 
 As shown in Graph A, the residuals are approximately Normally distributed. As seen in Graphs C and D, there appears to no correlation between the residuals of taste and H2s and the values of acetic and H2S, respectively.
 
-
-
-
-
+\   
+\   
 
 # 11.58
 ```{r out.width = "50%"}
@@ -294,7 +292,6 @@ $\hat Taste=-29.8588324+37.7199485*Lactic$
 The intercepts in these three equations are different because of differences in the variations of the response variable. For example, the values of H2S at low values of taste were concentrated close to the line compared to the values of the response variable acetic, which were scattered far from the line. 
 
 # 11.59
-Assume a significance level of 0.05:
 $$H_0: \beta_1 = \beta_2 = 0$$
 $$H_A: \beta_1 \not= \beta_2 \not= 0$$
 ```{r}
@@ -312,11 +309,11 @@ t_value <- beta/se #what to do with second values?
 p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 4)
 ```
 Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["acetic"]` * Acetic + `r tamodel$coefficients["h2s"]` * H2S  
+$R^2=$ `r modelSummary$r.squared`  
 Acetic T-value: `r t_value`  
-Acetic P-value: `r p_value`
+Acetic P-value: `r p_value`  
 
-The model with only Acetic as a predictor is stronger. I prefer that model over the one with both Acetic and H2S as predictors because it is more significant, with a P-value of 0.001658 compared to 0.4065277 for the previous.  
-
+In the model where Acetic is the only predictor, the significance of Acetic is 0.001658, which is lower than the significance of Acetic in the model where Acetic and H2S are both used, where the it is 0.4065277. The model where both are used is stronger because it has a much lower P-value ($7.645*10^{-6}$) and the $R^2$ value is higher (`r modelSummary$r.squared`). Acetic appears to be a good predictor alone but not with H2S because the variables are strongly correlated (r = 0.6179559). Due to this, acetic does not provide much significant additional information.
 
 
 # 11.60
@@ -342,17 +339,58 @@ p_value2 <- 2*pt(-abs(t_value2), df=nrow(loss) - 4)
 p_value_total <- pf(modelSummary$fstatistic[1],modelSummary$fstatistic[2],modelSummary$fstatistic[3],lower.tail=FALSE)
 ```
 Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["h2s"]` * H2S + `r tamodel$coefficients["lactic"]` * Lactic  
+$R^2=$ `r modelSummary$r.squared`  
+
 H2S T-value: `r t_value`  
 H2S P-value: `r p_value`  
 Lactic T-value: `r t_value2`  
 Lactic P-value: `r p_value2`  
 F-statistic P-value: `r p_value_total`  
-The results obtained from using both predictors in a model were much better than the results obtained from the analysis of a simple linear regression of the explanatory variables on their own. As seen above, the p-value obtained when H2S and lactic are both used as predictors is `r p_value_total` When they used as individual explanatory variables, their p-values are `r p_value_h2s` and `r p_value_lactic` for H2S and lactic, respectively. When they are both used as predictors together, the p-value was decreased which shows that the test is more significant and thus more reliable as a predictor for the taste of the cheese.
+
+Using both H2S and Lactic as predictors in the model resulted in a better model than that of each of the explanatory variables on their own. As seen above, the p-value obtained when H2S and lactic are both used as predictors is `r p_value_total` When they used as individual explanatory variables, their p-values are `r p_value_h2s` and `r p_value_lactic` for H2S and lactic, respectively. When they are both used as predictors together, the p-value is lower which shows that the model is more significant and thus more reliable as a predictor for the taste of the cheese.
 
 
 
 # 11.61
 
+```{r}
+tamodel <- lm(taste ~ acetic + h2s + lactic, data = loss)
+modelSummary <- summary(tamodel)
+modelCoeffs <- modelSummary$coefficients
 
+f <- summary(tamodel)$fstatistic
+p_value <- pf(f[1],f[2],f[3],lower.tail=F)
+```
+
+Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["acetic"]` * Acetic + `r tamodel$coefficients["h2s"]` * H2S + `r tamodel$coefficients["lactic"]` * Lactic  
+
+Acetic T-value = `r modelCoeffs[10]`  
+H2S T-value = `r modelCoeffs[11]`  
+Lactic T-value = `r modelCoeffs[12]`  
+
+Acetic P-value = `r modelCoeffs[14]`  
+H2S P-value = `r modelCoeffs[15]`  
+Lactic P-value = `r modelCoeffs[16]`  
+
+
+The model has an R-squared value of `r modelSummary$r.squared`. There is a strong positive relationship between the explanatory variables and taste. The model has a P-value of `r p_value`. At the significance level of 0.05, we have statistically significant evidence to suggest that a positive relationship exists between the explanatory variables and taste.  
+
+
+```{r out.width="50%"}
+plot(tamodel, which=2)
+```
+
+The Q-Q plot shows that the distribution of the residuals is approximately normal.
+
+```{r out.width="50%"}
+plot(tamodel, which=1)
+```
+
+The Residuals vs Fitted graph shows a relatively uniform distribution with no obvious pattern. The distribution of the residuals can be described as approximately normal.  
+\   
+
+Since the P-value for acetic was so high (`r modelCoeffs[14]`), we should consider removing it from the model in order to increase precision.  
+
+From all of the previous linear models, the model with H2S and Lactic as explanatory variables for Taste should be preferred. It is the most significant model because it has the lowest P-value ($6.5513712*10^{-7}$).
 
 
