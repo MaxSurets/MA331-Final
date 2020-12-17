@@ -146,7 +146,6 @@ P-value = `r res[[1]][["Pr(>F)"]][1]`
 
 
 # 11.55
-Assume a significance level of 0.05:
 $$H_0: \beta_1 = 0$$
 $$H_A: \beta_1 \not= 0$$
 ```{r}
@@ -161,10 +160,7 @@ fstats <- append(fstats, modelSummary$fstatistic[[1]])
 s <- append(s, sqrt(modelSummary$sigma))
 rsq <- append(rsq, modelSummary$r.squared)
 modelCoeffs <- modelSummary$coefficients
-beta <- modelCoeffs["acetic", "Estimate"]
-se <- modelCoeffs["acetic", "Std. Error"]
-t_value <- beta/se
-#p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
+t_value <- modelCoeffs["acetic", "t value"]
 p_value <- modelSummary[["coefficients"]][8]
 pvalues <- append(pvalues, p_value)
 ```
@@ -172,7 +168,7 @@ $\hat Taste$ = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients
 T-value: `r t_value`  
 P-value: `r p_value` 
   
-Since the p value of `r p_value` is less than the significance level of 0.05, the null hypothesis can be rejected as the test is statistically significant.  
+Since the P-value of `r p_value` is less than the significance level of 0.05, the null hypothesis can be rejected as there is statistically significant evidence to suggest that there exists a positive relationship between acetic and taste.  
 
 ```{r out.width = "50%"}
 Taste_Acetic <- lm(taste ~ acetic, data = loss)
@@ -195,7 +191,6 @@ As shown in Graph A, the residuals have an approximately Normal distribution. As
 
 # 11.56
 
-Assume a significance level of 0.05:
 $$H_0: \beta_1 = 0$$
 $$H_A: \beta_1 \not= 0$$
 ```{r}
@@ -205,10 +200,7 @@ fstats <- append(fstats, modelSummary$fstatistic[[1]])
 rsq <- append(rsq, modelSummary$r.squared)
 s <- append(s, sqrt(modelSummary$sigma))
 modelCoeffs <- modelSummary$coefficients
-beta <- modelCoeffs["h2s", "Estimate"]
-se <- modelCoeffs["h2s", "Std. Error"]
-t_value_h2s <- beta/se
-#p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
+t_value_h2s <- modelCoeffs["h2s", "t value"]
 p_value_h2s <- modelSummary[["coefficients"]][8]
 pvalues <- append(pvalues, p_value_h2s)
 ```
@@ -216,7 +208,7 @@ $\hat Taste$ = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients
 T-value: `r t_value_h2s`  
 P-value: `r p_value_h2s` 
   
-Since the p value of `r p_value_h2s` is less than the significance level of 0.05, the null hypothesis can be rejected as the test is statistically significant.  
+Since the P-value of `r p_value_h2s` is less than the significance level of 0.05, the null hypothesis can be rejected as there is statistically significant evidence to suggest that there exists a positive relationship between H2S and taste.  
 
 ```{r out.width = "50%"}
 Taste_H2s <- lm(taste ~ h2s, data = loss)
@@ -238,7 +230,6 @@ As shown in Graph A, the residuals are approximately Normally distributed. As se
 
 # 11.57
 
-Assume a significance level of 0.05:
 $$H_0: \beta_1 = 0$$
 $$H_A: \beta_1 \not= 0$$
 ```{r}
@@ -248,10 +239,7 @@ fstats <- append(fstats, modelSummary$fstatistic[[1]])
 rsq <- append(rsq, modelSummary$r.squared)
 s <- append(s, sqrt(modelSummary$sigma))
 modelCoeffs <- modelSummary$coefficients
-beta <- modelCoeffs["lactic", "Estimate"]
-se <- modelCoeffs["lactic", "Std. Error"]
-t_value_lactic <- beta/se
-#p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 3)
+t_value_lactic <- modelCoeffs["lactic", "t value"]
 p_value_lactic <- modelSummary[["coefficients"]][8]
 pvalues <- append(pvalues, p_value_lactic)
 ```
@@ -259,7 +247,7 @@ $\hat Taste$ = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients
 T-value: `r t_value_lactic`  
 P-value: `r p_value_lactic` 
   
-Since the p value of `r p_value_lactic` is less than the significance level of 0.05, the null hypothesis can be rejected as the test is statistically significant.  
+Since the P-value of `r p_value_lactic` is less than the significance level of 0.05, the null hypothesis can be rejected as there is statistically significant evidence to suggest that there exists a positive relationship between lactic and taste.  
 
 ```{r out.width = "50%"}
 Taste_L <- lm(taste ~ lactic, data = loss)
@@ -293,7 +281,7 @@ The intercepts in these three equations are different because of differences in 
 
 # 11.59
 $$H_0: \beta_1 = \beta_2 = 0$$
-$$H_A: \beta_1 \not= \beta_2 \not= 0$$
+$$H_A: \beta_j \not=0\mid j \in \{1,2\}$$
 ```{r}
 tamodel <- lm(taste ~ acetic + h2s, data = loss)
 modelSummary <- summary(tamodel)
@@ -318,25 +306,22 @@ In the model where Acetic is the only predictor, the significance of Acetic is 0
 
 # 11.60
 
+$$H_0: \beta_1 = \beta_2 = 0$$
+$$H_A: \beta_j \not=0\mid j \in \{1,2\}$$
+
 ```{r}
 tamodel <- lm(taste ~ h2s + lactic, data = loss)
 modelSummary <- summary(tamodel)
 modelCoeffs <- modelSummary$coefficients
 
-beta <- modelCoeffs["h2s", "Estimate"]
-beta2 <- modelCoeffs["lactic", "Estimate"] 
+t_value <- modelCoeffs["h2s", "t value"]
+t_value2 <- modelCoeffs["lactic", "t value"] 
 
-se <- modelCoeffs["h2s", "Std. Error"]
-se2 <- modelCoeffs["lactic", "Std. Error"]
+p_value <- modelCoeffs[[11]]
+p_value2 <- modelCoeffs[[12]]
 
-t_value <- beta/se
-p_value <- 2*pt(-abs(t_value), df=nrow(loss) - 4)
-
-
-t_value2 <- beta2/se2
-p_value2 <- 2*pt(-abs(t_value2), df=nrow(loss) - 4)
-
-p_value_total <- pf(modelSummary$fstatistic[1],modelSummary$fstatistic[2],modelSummary$fstatistic[3],lower.tail=FALSE)
+f <- summary(tamodel)$fstatistic
+p_value_model <- pf(f[1],f[2],f[3],lower.tail=F)
 ```
 Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["h2s"]` * H2S + `r tamodel$coefficients["lactic"]` * Lactic  
 $R^2=$ `r modelSummary$r.squared`  
@@ -345,21 +330,22 @@ H2S T-value: `r t_value`
 H2S P-value: `r p_value`  
 Lactic T-value: `r t_value2`  
 Lactic P-value: `r p_value2`  
-F-statistic P-value: `r p_value_total`  
+F-statistic P-value: `r p_value_model`  
 
-Using both H2S and Lactic as predictors in the model resulted in a better model than that of each of the explanatory variables on their own. As seen above, the p-value obtained when H2S and lactic are both used as predictors is `r p_value_total` When they used as individual explanatory variables, their p-values are `r p_value_h2s` and `r p_value_lactic` for H2S and lactic, respectively. When they are both used as predictors together, the p-value is lower which shows that the model is more significant and thus more reliable as a predictor for the taste of the cheese.
+Using both H2S and Lactic as predictors in the model resulted in a better model than that of each of the explanatory variables on their own. As seen above, the p-value obtained when H2S and lactic are both used as predictors is `r p_value_model` When they used as individual explanatory variables, their p-values are `r p_value_h2s` and `r p_value_lactic` for H2S and lactic, respectively. When they are both used as predictors together, the p-value is lower which shows that the model is more significant and thus more reliable as a predictor for the taste of the cheese.
 
 
 
 # 11.61
-
+$$H_0: \beta_1 = \beta_2 = \beta_3 = 0$$
+$$H_A: \beta_j \not=0\mid j \in \{1,2,3\}$$
 ```{r}
 tamodel <- lm(taste ~ acetic + h2s + lactic, data = loss)
 modelSummary <- summary(tamodel)
 modelCoeffs <- modelSummary$coefficients
 
 f <- summary(tamodel)$fstatistic
-p_value <- pf(f[1],f[2],f[3],lower.tail=F)
+p_value_model <- pf(f[1],f[2],f[3],lower.tail=F)
 ```
 
 Taste = `r tamodel$coefficients["(Intercept)"]` + `r tamodel$coefficients["acetic"]` * Acetic + `r tamodel$coefficients["h2s"]` * H2S + `r tamodel$coefficients["lactic"]` * Lactic  
@@ -373,7 +359,7 @@ H2S P-value = `r modelCoeffs[15]`
 Lactic P-value = `r modelCoeffs[16]`  
 
 
-The model has an R-squared value of `r modelSummary$r.squared`. There is a strong positive relationship between the explanatory variables and taste. The model has a P-value of `r p_value`. At the significance level of 0.05, we have statistically significant evidence to suggest that a positive relationship exists between the explanatory variables and taste.  
+The model has an R-squared value of `r modelSummary$r.squared`. There is a strong positive relationship between the explanatory variables and taste. The model has a P-value of `r p_value_model`. At the significance level of 0.05, we have statistically significant evidence to suggest that a positive relationship exists between the taste and explanatory variables acetic, H2S, and lactic.  
 
 
 ```{r out.width="50%"}
