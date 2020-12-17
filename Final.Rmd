@@ -90,30 +90,30 @@ In summary, taste, acetic, and H2S do not seem to be normally distributed, but l
 # 11.54
 
 ```{r out.width = "50%"}
-plot(taste, acetic)
+plot(acetic, taste)
 res = summary(aov(acetic~taste))
 ```
 
 The relationship between acetic and taste is positive.  
-Correlation = `r cor(taste, acetic)`  
+Correlation = `r cor(acetic, taste)`  
 P-value = `r res[[1]][["Pr(>F)"]][1]`  
 
 ```{r out.width = "50%"}
-plot(taste, h2s)
+plot(h2s, taste)
 res = summary(aov(h2s~taste))
 ```
 
 The relationship between h2s and taste is positive.  
-Correlation = `r cor(taste, h2s)`  
+Correlation = `r cor(h2s, taste)`  
 P-value = `r res[[1]][["Pr(>F)"]][1]`  
 
 ```{r out.width = "50%"}
-plot(taste, lactic)
+plot(lactic, taste)
 res = summary(aov(lactic~taste))
 ```
 
 The relationship between lactic and taste is positive.  
-Correlation = `r cor(taste, lactic)`  
+Correlation = `r cor(lactic, taste)`  
 P-value = `r res[[1]][["Pr(>F)"]][1]`  
 
 ```{r out.width = "50%"}
